@@ -1,0 +1,66 @@
+baseURL = 'https://example.org/'
+languageCode = 'zh-cn'
+title = '小明の博客'
+theme = 'simple'
+
+# 网站参数配置
+[params]
+  avatar = "/images/avatar.png"   # 头像
+  author = "小明"                 # 作者名
+  subtitle = "分享生活"           # 网站副标题
+  description = "小明的个人博客，分享生活" # 网站描述
+  keywords = ["博客", "生活"]              # 网站关键词
+
+  [params.seo]
+    googleSiteVerification = "您的Google验证码"
+    bingSiteVerification = "您的Bing验证码"
+
+  
+  # 画册配置
+  [params.gallery]
+    categories = [
+      { id = "scenery", name = "风景" },
+      { id = "life", name = "生活" },
+      { id = "food", name = "美食" },
+      { id = "travel", name = "旅行" },
+      { id = "pet", name = "宠物" },
+      { id = "other", name = "其他" }
+    ]
+
+# 导航菜单配置
+[menu]
+  [[menu.main]]
+    name = "首页"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "归档"
+    url = "/archives/"
+    weight = 2
+  [[menu.main]]
+    name = "追番"
+    url = "/anime/"
+    weight = 3
+  [[menu.main]]
+    name = "画册"
+    url = "/gallery/"
+    weight = 4
+  
+  # 侧边栏配置
+  [params.sidebar]
+    # 右侧边栏是否显示搜索
+    enableSearch = true
+    # 右侧边栏是否显示标签云
+    enableTags = true
+    # 右侧边栏是否显示分类
+    enableCategories = true
+
+# 输出格式配置
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+# Sitemap 配置
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
