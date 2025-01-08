@@ -1,0 +1,29 @@
+<aside class="right-sidebar">
+    {{ if .Site.Params.sidebar.enableSearch }}
+    <div class="search-box">
+        <input type="text" class="search-input" placeholder="搜索文章...">
+        <div class="search-results"></div>
+        <div class="search-loading">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+    {{ end }}
+
+    {{ if .Site.Params.sidebar.enableTags }}
+    <div class="tags-section">
+        <h3>标签</h3>
+        {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+        <a href="{{ "tags/" | relLangURL }}{{ $name | urlize }}" class="tag">{{ $name }} ({{ .Count }})</a>
+        {{ end }}
+    </div>
+    {{ end }}
+
+    {{ if .Site.Params.sidebar.enableCategories }}
+    <div class="categories-section">
+        <h3>分类</h3>
+        {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+        <a href="{{ "categories/" | relLangURL }}{{ $name | urlize }}" class="category">{{ $name }} ({{ .Count }})</a>
+        {{ end }}
+    </div>
+    {{ end }}
+</aside> 

@@ -1,0 +1,15 @@
+{{ define "main" }}
+<div class="anime-content">
+    <div class="anime-header">
+        <div class="anime-tabs">
+            <button class="anime-tab active" data-type="anime">追番</button>
+            <button class="anime-tab" data-type="drama">追剧</button>
+        </div>
+    </div>
+    <div class="anime-list" id="animeApp"></div>
+</div>
+
+<!-- 引入追番相关的 JS 和 CSS -->
+<link rel="stylesheet" href="/css/anime.css">
+<script src="/js/anime.js"></script>
+{{ end }} 

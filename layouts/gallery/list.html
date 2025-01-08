@@ -1,0 +1,25 @@
+{{ define "main" }}
+<div class="gallery-content">
+    <div class="gallery-controls">
+        <div class="gallery-categories">
+            <button class="gallery-category active" data-category="all">全部</button>
+            {{ range .Site.Params.gallery.categories }}
+            <button class="gallery-category" data-category="{{ .id }}">{{ .name }}</button>
+            {{ end }}
+        </div>
+        <div class="gallery-sort">
+            <select id="gallerySort">
+                <option value="date-desc">时间降序</option>
+                <option value="date-asc">时间升序</option>
+                <option value="name-asc">名称升序</option>
+                <option value="name-desc">名称降序</option>
+            </select>
+        </div>
+    </div>
+    <div class="gallery-grid" id="galleryApp"></div>
+</div>
+
+<!-- 引入画册相关的 JS 和 CSS -->
+<link rel="stylesheet" href="/css/gallery.css">
+<script src="/js/gallery.js"></script>
+{{ end }} 

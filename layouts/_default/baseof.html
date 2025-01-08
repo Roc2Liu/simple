@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}">
+    <meta name="keywords" content="{{ with .Keywords }}{{ delimit . ", " }}{{ else }}{{ with .Site.Params.keywords }}{{ delimit . ", " }}{{ end }}{{ end }}">
+    <meta name="author" content="{{ .Site.Params.author }}">
+    
+    <!-- 文章页面特定的 meta -->
+    {{ if .IsPage }}
+    <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+    <meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
+    {{ with .Params.tags }}
+    <meta property="article:tag" content="{{ delimit . ", " }}">
+    {{ end }}
+    {{ end }}
+    
+    <!-- 网站验证 -->
+    {{ with .Site.Params.seo.googleSiteVerification }}
+    <meta name="google-site-verification" content="{{ . }}">
+    {{ end }}
+    {{ with .Site.Params.seo.bingSiteVerification }}
+    <meta name="msvalidate.01" content="{{ . }}">
+    {{ end }}
+    
+    <!-- RSS -->
+    {{ range .AlternativeOutputFormats -}}
+    {{ printf `<link rel="%s" type="%s" href="%s" title="%s">` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+    {{ end -}}
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ "favicon.ico" | relURL }}" type="image/x-icon">
+    <link rel="canonical" href="{{ .Permalink }}">
+    
+    <!-- 基础样式 -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- 响应式样式 -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <!-- 搜索样式 -->
+    <link rel="stylesheet" href="/css/search.css">
+    <!-- 其他页面特定样式 -->
+    {{ block "styles" . }}{{ end }}
+</head>
+<body>
+    <!-- 移动端header -->
+    <header class="mobile-header">
+        <button class="sidebar-toggle left-sidebar-toggle">☰</button>
+        <button class="sidebar-toggle right-sidebar-toggle">⚙</button>
+    </header>
+    
+    <div class="container">
+        <!-- 遮罩层 -->
+        <div class="sidebar-overlay"></div>
+        
+        <!-- 左侧边栏 -->
+        <aside class="left-sidebar">
+            {{ partial "left-sidebar.html" . }}
+        </aside>
+
+        <!-- 主要内容区 -->
+        <main class="main-content">
+            {{ block "main" . }}{{ end }}
+        </main>
+
+        <!-- 右侧边栏 -->
+        {{ partial "right-sidebar.html" . }}
+    </div>
+    
+    <!-- 基础脚本 -->
+    <script src="/js/search.js"></script>
+    <!-- 侧边栏切换脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const leftToggle = document.querySelector('.left-sidebar-toggle');
+            const rightToggle = document.querySelector('.right-sidebar-toggle');
+            const leftSidebar = document.querySelector('.left-sidebar');
+            const rightSidebar = document.querySelector('.right-sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            function closeSidebars() {
+                leftSidebar.classList.remove('active');
+                rightSidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            
+            leftToggle.addEventListener('click', () => {
+                leftSidebar.classList.toggle('active');
+                rightSidebar.classList.remove('active');
+                overlay.classList.toggle('active');
+                document.body.style.overflow = leftSidebar.classList.contains('active') ? 'hidden' : '';
+            });
+            
+            rightToggle.addEventListener('click', () => {
+                rightSidebar.classList.toggle('active');
+                leftSidebar.classList.remove('active');
+                overlay.classList.toggle('active');
+                document.body.style.overflow = rightSidebar.classList.contains('active') ? 'hidden' : '';
+            });
+            
+            // 点击遮罩层关闭侧边栏
+            overlay.addEventListener('click', closeSidebars);
+            
+            // 点击内容区域关闭侧边栏
+            document.querySelector('.main-content').addEventListener('click', closeSidebars);
+            
+            // 监听 ESC 键
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeSidebars();
+                }
+            });
+        });
+    </script>
+    <!-- 其他页面特定脚本 -->
+    {{ block "scripts" . }}{{ end }}
+</body>
+</html>

@@ -1,0 +1,10 @@
+# 允许其他搜索引擎
+User-agent: *
+Allow: /
+
+# 禁止百度爬虫
+User-agent: Baiduspider
+Disallow: /
+
+# 网站地图
+Sitemap: https://example.org/sitemap.xml 
